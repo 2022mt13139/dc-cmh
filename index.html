@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8 />
+<meta name="viewport" content="user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, minimal-ui">
+<title>Chandy-Misra-Haas AND model | Mutual Exclusion</title>
+<link rel="stylesheet" href="dep/bootstrap.min.css" />
+<link rel="stylesheet" href="style/style.css" />
+<script src="dep/angular.min.js"></script>
+<script src="dep/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    <div ng-app="cmhApp" id="input">
+        <div ng-controller="InputDataCtrl as data">
+            <h1>Chandy-Misra-Haas</h1>
+            <div class="tags">
+                <span class="badge rounded-pill text-bg-secondary">Distributed Mutual Exclusion</span>
+                <span class="badge rounded-pill text-bg-secondary">Distibuted Deadlock Detection</span>
+                <span class="badge rounded-pill text-bg-secondary">Wait for Graph</span>
+                <span class="badge rounded-pill text-bg-secondary">AND model</span>
+                Developer &#x1F449; <a href="https://www.linkedin.com/in/saurabh-shakya/" target="_blank">Saurabh Shakya</a>
+            </div>
+            <div>
+                <div class="nodes">
+                    <ul class="list-group">
+                        <li ng-repeat="site in data.sites" class="list-group-item list-group-item-secondary">
+                            <div class="site-name">
+                                S{{site[0]}} 
+                                <button ng-click="data.deleteSite($index)" class="btn btn-danger btn-sm">
+                                    &#x2718; Site
+                                </button>
+                            </div>
+                            <div>
+                                <ul class="list-group">
+                                    <li ng-repeat="process in site[1]" class="list-group-item list-group-item-primary">
+                                        <div class="process-name">
+                                            P{{process}}
+                                            <button ng-click="data.deleteProcess($parent.$index, $index)" class="btn btn-danger btn-sm">
+                                                &#x2718;
+                                            </button>
+                                        </div>
+                                    </li>
+                                    <div class="input-group">
+                                        <span class="input-group-text">P</span>
+                                        <input type="number" ng-model="site.newProcess" placeholder="Process ID" min="1" class="form-control" >
+                                        <button ng-click="data.addProcess($index)" ng-disabled="!data.isValidProcess($index)" class="btn btn-success btn-sm">
+                                            <b> &#x2B; </b>
+                                        </button>
+                                    </div>
+                                </ul>
+                            </div>
+                        </li>
+                        <div class="input-group">
+                            <span class="input-group-text">S</span>
+                            <input type="number" ng-model="data.newSite" placeholder="Site ID" min="1" class="form-control" >
+                            <button ng-click="data.addSite()" ng-disabled="!data.isValidSite()" class="btn btn-success btn-sm">
+                                <b> &#x2B; </b>
+                            </button>
+                        </div>
+                    </ul>
+                </div>
+                <div class="edges">
+                    <ul class="list-group">
+                        <li ng-repeat="wait in data.waitFor" class="list-group-item">
+                            <div class="site-name">
+                                P{{wait[0]}} waits for P{{wait[1]}}
+                                <button ng-click="data.deleteWait($index)" class="btn btn-danger btn-sm">
+                                    &#x2718;
+                                </button>
+                            </div>
+                        </li>
+                        <div class="input-group">
+                            <select ng-model="data.newWaitSource" class="form-select form-select-sm">
+                                <option value="{{undefined}}">Process</option>
+                                <option ng-repeat="process in data.processes" value="{{process[0]}}">P{{process[0]}}</option>
+                            </select>
+                            <span class="input-group-text">waits for</span>
+                            <select ng-model="data.newWaitTarget" class="form-select form-select-sm">
+                                <option value="{{undefined}}">Process</option>
+                                <option ng-repeat="process in data.processes" value="{{process[0]}}">P{{process[0]}}</option>
+                            </select>
+                            <button ng-click="data.addWait()" ng-disabled="!data.isValidWait()" class="btn btn-success">
+                                <b> &#x2B; </b>
+                            </button>
+                        </div>
+                    </ul>
+                </div>
+            </div>
+            <div class="btn-grp">
+                <button ng-click="data.loadSample()" ng-show="data.sites.length === 0" class="btn btn-info btn-sm">
+                    Sample Data ?
+                </button>
+                <button ng-click="data.clearAll()" ng-hide="data.sites.length === 0" class="btn btn-danger btn-sm">
+                    Clear Data ?
+                </button>
+            </div>
+            <div class="btn-grp btn-grp-right">
+                <button ng-click="data.preview()" ng-show="false" ng-disabled="!data.isValidPreview()" class="btn btn-outline-dark btn-lg">
+                    &#x1F441; Preview
+                </button>
+                <div class="input-group input-group-lg">
+                    <span class="input-group-text" id="inputGroup-sizing-lg">Initiator</span>
+                    <select ng-model="data.initiator" class="form-select form-select-lg">
+                        <option value="{{undefined}}">All</option>
+                        <option ng-repeat="process in data.processes" value="{{process[0]}}">P{{process[0]}}</option>
+                    </select>
+                    <button ng-click="data.andDeadlockDetect()" ng-disabled="data.edited" class="btn btn-outline-primary btn-lg"
+                        data-bs-toggle="modal" data-bs-target="#resultModal">
+                        &#x27B0; AND
+                    </button>
+                </div>
+                <button onclick="detectDeadLockOR()" ng-show="false" class="btn btn-outline-primary btn-lg">
+                    &#x27BF; OR
+                </button>
+            </div>
+            <div class="modal fade" id="resultModal" style="display: none;">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" ng-class="data.result.deadlock ? 'text-danger' : 'text-success'">
+                                {{data.result.deadlock ? 'Deadlock Detected' : 'No Deadlock'}}
+                            </h1>
+                        </div>
+                        <div class="modal-body">
+                            <ul class="list-group">
+                                <li ng-repeat="probe in data.result.probes track by $index" class="list-group-item"
+                                    ng-class="probe === '' ? 'list-group-item-light' : ''">
+                                    {{probe === '' ? '--- init' : probe}}
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="diagram"></div>
+</body>
+<script src="cmh.js"></script>
+<script src="script/sample.js"></script>
+<script src="script/input.js"></script>
+<script>
+    var app = angular.module('cmhApp', []);
+    app.controller('InputDataCtrl', InputData);
+</script>
+<script src="dep/cytoscape.min.js"></script>
+<script src="script/diagram.js"></script>
+</html>

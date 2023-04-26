@@ -1,0 +1,54 @@
+#diagram {
+    height: 100%;
+    width: 40%;
+    position: absolute;
+    left: 60%;
+    top: 0;
+    border-left: 1px solid #727272;
+}
+
+#input {
+    height: 100%;
+    width: 60%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding: 20px 50px;
+    overflow-y: auto;
+}
+
+.tags {
+    margin-top: -10px;
+    padding-bottom: 20px;
+}
+
+.nodes, .edges {
+    width: 45%;
+    display: inline-block;
+}
+
+.edges {
+    float: right;
+}
+
+.site-name, .process-name {
+    padding-bottom: 5px;
+}
+
+.btn-danger, .btn-warning {
+    float: right;
+    margin-left: 15px;
+}
+
+.btn-grp {
+    display: inline-block;
+    padding: 20px 0px;
+}
+
+.btn-grp-right {
+    float: right;
+}
+
+.btn-lg {
+    margin-left: 5px;
+}
