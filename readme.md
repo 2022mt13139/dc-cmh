@@ -1,5 +1,5 @@
 # Chandy-Misra-Haas
-> AND model, Wait for Graph, Distributed Deadlock Detection
+> AND model, Wait for Graph, Distributed Deadlock Detection, Distributed Mutual Exclusion
 
 ## Implementation
 - Code ([Javascript](https://developer.mozilla.org/en-US/docs/Web/JavaScript))
@@ -24,7 +24,7 @@
 
 ## Infrastrcuture
 - Operating System: Any
-- Browser: Chrome (preferred), Safari, Edge or Mozilla
+- Browser: Google Chrome, Apple Safari, Microsoft Edge (not ~~Internet Explorer~~) or Mozilla Firefox
 
 ## Steps to execute
 
@@ -52,3 +52,14 @@ Assumptions:
 - Select initiatior process (default All). ([ref](./demo/3.png))
 - Click button `AND` to execute the algorithm to detect distributed deadloack.
 - View the result in popup header along with the list of probes send during the execution of algorithm. ([ref1](./demo/4.png), [ref2](./demo/5.png))
+
+### Miscellaneous
+
+Online Demo: [https://2022mt13139.github.io/dc-cmh](https://2022mt13139.github.io/dc-cmh)
+
+Source Code: [https://github.com/2022mt13139/dc-cmh](https://github.com/2022mt13139/dc-cmh)
+
+@Developer: [Saurabh Shakya](https://www.linkedin.com/in/saurabh-shakya/)
+
+![Screenshot](./demo/2.png)
+![Screenshot](./demo/4.png)

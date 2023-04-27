@@ -26,15 +26,17 @@ class CMH {
         while(q.length !== 0) {
             const proc = q.shift();
             const procs = graph.get(proc);
-            let cycle = false;
-            for(const p of procs) {
+            if(procs.length === 0)
+                probes.push('P'+proc + ': discard');
+            else for(const p of procs) {
                 q.push(p);
                 const probe = [initiator, proc, p];
-                const probeString = '['+probe.toString()+']';
+                const probeString = '('+probe.toString()+')';
+                // visited is not part of the CMH algorithm, additionally maintained just to avoid infinite loops
                 const visited = sent.has(probeString);
                 if(!visited) {
                     sent.set(probeString, null);
-                    probes.push(probe);
+                    probes.push(probeString);
                 }
                 if(initiator === p || visited) 
                     return true;
