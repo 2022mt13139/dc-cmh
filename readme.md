@@ -7,24 +7,24 @@
 - Visualisation ([Cytoscape](https://cytoscape.org/))
 
 ## File Structure
-+ demo [directry for demo images/assets]
-+ dep [directry to store 3rd party library for dependency]
-  - angular.min.js [angularjs library for UI]
-  - bootstrap.bundle.min.js [boostrstap library for styling]
-  - bootstrap.min.css [boostrstap library for styling]
-  - cytoscape.min.js [cytoscape library to draw diagram]
-+ script [directrory for custom integration code]
-  - diagram.js [code to integrate to cytoscape library]
-  - input.js [code to integrate to angularjs library]
-  - sample.js [code to generate sample input]
-+ style [directory for custom styling]
-  - style.css [custom stying for presentation on UI]
-- cmh.js [actual implementation to detect distributed deadlock via CMH AND model]
-- index.html [entrypoint to launch UI]
++ demo <sub>directry for demo images/assets</sub>
++ dep <sub>directry to store 3rd party library for dependency</sub>
+  - angular.min.js <sub>angularjs library for UI</sub>
+  - bootstrap.bundle.min.js <sub>boostrstap library for styling</sub>
+  - bootstrap.min.css <sub>boostrstap library for styling</sub>
+  - cytoscape.min.js<sub>cytoscape library to draw diagram</sub>
++ script <sub>directrory for custom integration code</sub>
+  - diagram.js <sub>code to integrate to cytoscape library</sub>
+  - input.js <sub>code to integrate to angularjs library</sub>
+  - sample.js <sub>code to generate sample input</sub>
++ style <sub>directory for custom styling</sub>
+  - style.css <sub>custom stying for presentation on UI</sub>
+- `cmh.js` <sub>actual implementation to detect distributed deadlock via CMH AND model</sub>
+- `index.html` <sub>entrypoint to launch UI</sub>
 
 ## Infrastrcuture
 - Operating System: Any
-- Browser: Google Chrome, Apple Safari, Microsoft Edge (not ~~Internet Explorer~~) or Mozilla Firefox
+- Browser: <mark>Google Chrome</mark>, Apple Safari, Microsoft Edge (not ~~Internet Explorer~~) or Mozilla Firefox
 
 ## Steps to execute
 
