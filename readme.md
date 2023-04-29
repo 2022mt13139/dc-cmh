@@ -31,11 +31,13 @@
 ```
 Assumptions:
 - All the process will have unique ID (positive number) accross all sites
-- Sites will have unique ID (positive number). Sites used as input for visualization. It has no impact on the deadlock detection algorithm.
-- The input to the CMH algorithm is graph of process represented by adjacency list (Map<Number,List<Number>>).
+- Sites will have unique ID (positive number). Sites used as input for visualization. 
+  It is not used in deadlock detection algorithm.
+- The input to the CMH algorithm is graph of process represented by adjacency list 
+  (Map<Number,List<Number>>).
 ```
 
-- Open [index.html](./index.html) in your favourite browser. ([ref](./demo/1.png))
+- Open [index.html](./index.html) in your favourite browser.
 - Load sample data or create your own.
   - Load sample data can be done by clicking button `Sample Data ?` ([ref](./demo/1.png))
   - Clear all data using button `Clear Data?` (if required). ([ref](./demo/2.png))

@@ -3,13 +3,13 @@ class CMH {
     // graph: Map<Process, Set<Process>>, initiator: Process
     detectDeadLockAND = (graph, initiator) => {
         let probes = [];
-        let deadlock = false;
+        let deadlock = undefined;
         if(initiator)
             deadlock = this.#detectCycle(initiator, graph, probes);
         else for(const procEntry of graph.entries()) {
             if(procEntry[1].length !== 0) {
                 probes.push('');
-                deadlock = deadlock || this.#detectCycle(procEntry[0], graph, probes);
+                deadlock = this.#detectCycle(procEntry[0], graph, probes);
                 if(deadlock)
                     break;
             }
@@ -26,9 +26,7 @@ class CMH {
         while(q.length !== 0) {
             const proc = q.shift();
             const procs = graph.get(proc);
-            if(procs.length === 0)
-                probes.push('P'+proc + ': discard');
-            else for(const p of procs) {
+            for(const p of procs) {
                 q.push(p);
                 const probe = [initiator, proc, p];
                 const probeString = '('+probe.toString()+')';
@@ -37,9 +35,13 @@ class CMH {
                 if(!visited) {
                     sent.set(probeString, null);
                     probes.push(probeString);
+                    if(graph.get(p).length === 0)
+                        probes.push('P'+p+': discard' + probeString);
                 }
-                if(initiator === p || visited) 
+                if(initiator === p) 
                     return true;
+                if(visited)
+                    return undefined;
             }
         }
         return false;
